@@ -19,7 +19,7 @@ namespace ISL_Net
         {
             sendSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPAddress ipAdr = IPAddress.Parse("127.0.0.1");//ip地址
-            IPEndPoint ipEp = new IPEndPoint(ipAdr, 1234);//ip地址和端口号
+            IPEndPoint ipEp = new IPEndPoint(ipAdr, 6666);//ip地址和端口号
         }
 
         //连接服务器
@@ -27,7 +27,7 @@ namespace ISL_Net
         {
             const int BUFFER_SISE = 1024;
             byte[] readBuff = new byte[BUFFER_SISE];
-            sendSocket.Connect("127.0.0.1", 1234);
+            sendSocket.Connect("127.0.0.1", 6666);
             String str = "cat";
             byte[] bytes = System.Text.Encoding.Default.GetBytes(str);
             sendSocket.Send(bytes);
@@ -35,7 +35,7 @@ namespace ISL_Net
             str = System.Text.Encoding.UTF8.GetString(readBuff, 0, count);
 
             Debug.Log("Get From server :" + str);
-
+           
 
             return true;
 
