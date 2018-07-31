@@ -20,7 +20,7 @@ public class TestConnect : MonoBehaviour {
     [ContextMenu("点击发送")]
     void SendData()
     {
-        con.ConnectToServer();
+        con.ConnectToServer(sendMSG);
     }
 
 
