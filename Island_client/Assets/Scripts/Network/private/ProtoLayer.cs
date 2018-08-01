@@ -19,10 +19,10 @@ namespace ISL_Net
         }
 
         //消息解码
-        static void DecodeMsg(byte[] revData)
+        public static MsgBase DecodeMsg(byte[] revData)
         {
 
-
+            return null;
         }
 
         //数据分发
@@ -33,6 +33,13 @@ namespace ISL_Net
 
         }
 
+        //消息编码
+        public static byte[] EncodeMsg(MsgBase msg)
+        {
+            StringBuilder sb = new StringBuilder();
 
+            byte[] bytes = System.Text.Encoding.Default.GetBytes(sb.ToString());
+            return null;
+        }
     }
 }

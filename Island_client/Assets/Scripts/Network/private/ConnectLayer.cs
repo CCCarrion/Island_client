@@ -52,7 +52,8 @@ namespace ISL_Net
     {
         byte[] _readBuff = new byte[GameSetting.ConstVar.NET_rev_buffer_size];
         Socket _socket;
-
+        bool bRev;
+        bool bSend;
 
         public uint CreateConnection(string ip,ushort port)
         {
@@ -63,11 +64,59 @@ namespace ISL_Net
             return GameSetting.ErrCodeDef.ISL_OK;
         }
 
+        //开启异步读取消息
+        public void StartMsgRecieve()
+        {
+            bRev = true;
+            _socket.BeginReceive(_readBuff, 0, GameSetting.ConstVar.NET_rev_buffer_size, SocketFlags.None, AsyncRev, null);
+
+        }
+
+        void AsyncRev(IAsyncResult ar)
+        {
+            int revSize = _socket.EndReceive(ar);
+
+            if (revSize > 0)
+            {
+                MsgBase msg = ProtoLayer.DecodeMsg(_readBuff);
+
+                GameEntity.Instance.gNetManager.AddRevMsg(msg);
+            }
+            if (bRev == false) return;
+
+            //继续等待消息
+            StartMsgRecieve();
+        }
+
+        public void StartMsgSend()
+        {
+            if (bSend) return;  //正在发送
 
 
+            MsgBase msg = GameEntity.Instance.gNetManager.GetOneSendMsg();
+            if (msg == null)
+            {
+                bSend = false;
+            }
+            else
+            {
+                bSend = true;
+                byte[] sendData = ProtoLayer.EncodeMsg(msg);
 
+                _socket.BeginSend(sendData,SocketFlags.None,)
+            }
+        }
+
+        void AsyncSend(IAsyncResult ar)
+        {
+            _socket.EndSend(ar);
+
+            //继续下一个
+            StartMsgSend();
+        }
         public uint CloseConnection()
         {
+            bRev = false;
             _socket.Close();
             return GameSetting.ErrCodeDef.ISL_OK;
         }
@@ -82,7 +131,7 @@ namespace ISL_Net
             return GameSetting.ErrCodeDef.ISL_OK;
         }
 
-        public uint RcvMsg()
+        public uint RevMsg()
         {
             
 

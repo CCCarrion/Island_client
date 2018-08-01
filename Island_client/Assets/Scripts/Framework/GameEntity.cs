@@ -27,6 +27,8 @@ public class GameEntity: ISL_Helper.ISL_Instance<GameEntity>
      
     public void Tick()
     {
+        gDataManager.Tick();
+        gNetManager.Tick();
 
     }
 

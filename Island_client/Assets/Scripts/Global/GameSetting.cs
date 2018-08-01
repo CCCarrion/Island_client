@@ -34,5 +34,13 @@ namespace ISL_Data
             public const uint ISL_OK = 0;
 
         }
+
+
+        //定义消息类型
+        public class MsgTypeDef
+        {
+            public const uint MSG_TEST_0 = 99999;
+
+        }
     }
 }

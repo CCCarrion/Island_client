@@ -18,7 +18,10 @@ namespace ISL_Data
 
         }
 
+        public void Tick()
+        {
 
+        }
 
     }
 }
