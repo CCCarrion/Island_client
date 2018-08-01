@@ -55,9 +55,14 @@ namespace ISL_Net
         bool bRev;
         bool bSend;
 
-        public uint CreateConnection(string ip,ushort port)
+
+        public ISL_Connection ()
         {
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        }
+
+        public uint CreateConnection(string ip,ushort port)
+        {
 
             _socket.Connect(ip, port);
 
@@ -92,7 +97,6 @@ namespace ISL_Net
         {
             if (bSend) return;  //正在发送
 
-
             MsgBase msg = GameEntity.Instance.gNetManager.GetOneSendMsg();
             if (msg == null)
             {
@@ -103,7 +107,7 @@ namespace ISL_Net
                 bSend = true;
                 byte[] sendData = ProtoLayer.EncodeMsg(msg);
 
-                _socket.BeginSend(sendData,SocketFlags.None,)
+                _socket.BeginSend(sendData,0,sendData.Length, SocketFlags.None, AsyncSend, null);
             }
         }
 

@@ -5,12 +5,12 @@ using ISL_Net;
 
 public class TestConnect : MonoBehaviour {
 
-    public string sendMSG;
-    ConnectLayer con;
+
     // Use this for initialization
     void Start () {
-        con = new ConnectLayer();
-	}
+        GameEntity.Instance.gNetManager.BindMsg(1, SendCallBack);
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -20,7 +20,16 @@ public class TestConnect : MonoBehaviour {
     [ContextMenu("点击发送")]
     void SendData()
     {
-        con.ConnectToServer(sendMSG);
+        TestMsg msg = new TestMsg();
+        msg.msgType = 1;
+        msg.msgContent = "Client";
+        GameEntity.Instance.gNetManager.PushMsg(msg, SendCallBack);
+    }
+
+
+    public void SendCallBack(MsgBase msg)
+    {
+        Debug.Log((msg as TestMsg).msgContent);
     }
 
 

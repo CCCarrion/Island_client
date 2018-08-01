@@ -24,7 +24,7 @@ namespace ISL_Net
 
             string ip = "127.0.0.1";
             ushort port = 6666;
-
+            _netConnection = new ISL_Connection();
             _netConnection.CreateConnection(ip, port);
 
             _sendList = new List<MsgBase>();
