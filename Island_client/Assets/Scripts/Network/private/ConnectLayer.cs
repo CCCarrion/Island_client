@@ -114,7 +114,7 @@ namespace ISL_Net
         void AsyncSend(IAsyncResult ar)
         {
             _socket.EndSend(ar);
-
+            bSend = false;
             //继续下一个
             StartMsgSend();
         }
